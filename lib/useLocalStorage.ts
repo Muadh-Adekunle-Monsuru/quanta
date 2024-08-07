@@ -9,8 +9,11 @@ export const useLocalStorage = (key: string) => {
 
 	const getLocalUser = () => {
 		try {
-			const user = window.localStorage.getItem(key);
-			return user ? JSON.parse(user) : undefined;
+			if (typeof window !== 'undefined') {
+				// Code that uses `window`
+				const user = window.localStorage.getItem(key);
+				return user ? JSON.parse(user) : undefined;
+			}
 		} catch (e) {
 			console.log('Error getting local user', e);
 		}

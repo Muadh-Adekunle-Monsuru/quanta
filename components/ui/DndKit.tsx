@@ -1,10 +1,21 @@
+'use client';
 import React, { useState } from 'react';
 import { DndContext, DragEndEvent, DragOverlay } from '@dnd-kit/core';
 import Draggable from './Draggable';
 import Dropable from './Dropable';
 import DraggableOverlay from './DraggableOverlay';
+import { Board, BoardReference, Space } from '@prisma/client';
+import { ChildProcess } from 'child_process';
 
-export default function DndKit() {
+export default function DndKit({
+	data,
+	boardId,
+	spaceId,
+}: {
+	data: BoardReference[];
+	boardId: string;
+	spaceId: string;
+}) {
 	const [activeId, setActiveId] = useState(null);
 	const [containers, setContainer] = useState([
 		{
@@ -130,17 +141,22 @@ export default function DndKit() {
 	return (
 		<DndContext onDragEnd={handleDragEnd}>
 			<div className='flex gap-5'>
-				{containers.map((id) => (
-					<Dropable key={id.name} id={id.name} className='flex flex-col gap-2'>
-						{id.children.map((child) => (
+				{data?.map((item) => (
+					<Dropable
+						key={item.id}
+						id={item.id}
+						name={item.name}
+						boardId={boardId}
+						spaceId={spaceId}
+						count={item.items.length}
+						className='flex flex-col gap-2'
+					>
+						{item.items.map((child) => (
 							<Draggable key={child.id} id={child.id} data={child} />
 						))}
 					</Dropable>
 				))}
 			</div>
-			{/* <DragOverlay>
-				{activeId ? <DraggableOverlay id={activeId} /> : null}
-			</DragOverlay> */}
 		</DndContext>
 	);
 }

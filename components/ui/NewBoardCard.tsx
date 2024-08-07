@@ -1,5 +1,9 @@
+'use client';
+import { useLocalStorage } from '@/lib/useLocalStorage';
+import { createNewBoard } from '@/prisma';
 import { Plus } from 'lucide-react';
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 export default function NewBoardCard() {
 	return (

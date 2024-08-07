@@ -12,3 +12,39 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model Board {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  public    Boolean  @default(false)
+  creatorId String   
+  spaces    Space[]
+}
+
+type Space {
+  name   String
+  id String
+  boards BoardReference[]
+}
+
+type BoardReference {
+  name  String
+  id String
+  items Item[]
+}
+
+type Item {
+  id            String
+  index         Int
+  date          DateTime @default(now())
+  content       String?
+  contentImage  String?
+  tags          Tag[]
+  creatorAvatar String?
+}
+
+type Tag {
+  name  String
+  color String
+}

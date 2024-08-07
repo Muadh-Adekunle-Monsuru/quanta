@@ -10,13 +10,11 @@ import AvatarComponent from './AvatarComponent';
 type ItemProp = {
 	id: string;
 	index: number;
-	date: string;
-	content: string;
-	contentImage: string;
-	tag: string;
-	tagColor: string;
-	creator: string;
-	comments: string;
+	date: Date;
+	content?: string;
+	contentImage?: string;
+	tags: [{ name: string; color: string }];
+	creatorAvatar?: string;
 };
 
 export default function Draggable(props: any) {
@@ -40,7 +38,7 @@ export default function Draggable(props: any) {
 		>
 			<div className='flex items-center justify-between  text-muted-foreground text-sm'>
 				<p># {data.index}</p>
-				<p>{data.date.slice(0, 5)}</p>
+				<p>{data.date.toUTCString().slice(0, 12)}</p>
 			</div>
 			<div className='flex flex-col gap-1 py-3'>
 				{data.contentImage && (
@@ -51,19 +49,25 @@ export default function Draggable(props: any) {
 			<div className='flex justify-between items-center '>
 				<div className='flex items-center gap-4'>
 					<Badge variant={'secondary'} className='text-muted-foreground'>
-						<span
-							className='size-1 rounded-full p-1 border mr-1'
-							style={{ backgroundColor: data.tagColor }}
-						/>
-						{data.tag}
+						{data.tags.length < 1 ? (
+							<>
+								<span
+									className='size-1 rounded-full p-1 border mr-1'
+									style={{ backgroundColor: data.tags[0]?.color }}
+								/>
+								<span>{data.tags[0]?.name}</span>
+							</>
+						) : (
+							<span className=' font-light'>Add tag</span>
+						)}
 					</Badge>
-					<div className='flex items-center gap-1 text-muted-foreground'>
-						<MessageCircle className='size-4' />
-						<p className='text-xs'>{data.comments.length}</p>
-					</div>
 				</div>
 				<div>
-					<AvatarComponent image='' fallback={data.creator[0]} key={data.id} />
+					<AvatarComponent
+						image={data.creatorAvatar || ''}
+						fallback='u'
+						key={data.id}
+					/>
 				</div>
 			</div>
 		</div>
