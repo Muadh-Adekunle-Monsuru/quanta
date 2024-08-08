@@ -1,8 +1,8 @@
 import { useZustandStore } from '@/lib/Zustand';
-import { updateItemContent, updateItemImage } from '@/prisma';
+import { deleteItem, updateItemContent, updateItemImage } from '@/prisma';
 import { useDraggable } from '@dnd-kit/core';
 import { Item } from '@prisma/client';
-import { ImagePlus, Link, Loader } from 'lucide-react';
+import { ImagePlus, Link, Loader, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import AvatarComponent from './AvatarComponent';
@@ -88,14 +88,16 @@ export default function Draggable({
 			ref={setNodeRef}
 			style={style}
 			{...attributes}
-			className='w-full min-h-32 bg-white shadow-sm border rounded-md p-3 flex flex-col justify-between group'
+			className='w-full min-h-32 bg-white shadow-sm border rounded-md p-3 flex flex-col justify-between group '
 		>
 			<div
 				className='flex items-center justify-between  text-muted-foreground text-sm'
 				{...listeners}
 			>
 				<p># {data.index}</p>
-				<p>{data.date.toUTCString().slice(0, 12)}</p>
+				<div className='flex items-center gap-2'>
+					<p>{data.date.toUTCString().slice(0, 12)}</p>
+				</div>
 			</div>
 			{data.contentImage && (
 				<div
@@ -149,6 +151,13 @@ export default function Draggable({
 						<Link
 							className='size-4 cursor-pointer hover:text-black'
 							onClick={() => setShowLinkInput((prev) => !prev)}
+						/>
+						<Trash2
+							className='size-4 cursor-pointer'
+							onClick={async () => {
+								await deleteItem(projectId, spaceId, boardId, data.id);
+								setRefresh();
+							}}
 						/>
 					</div>
 					<Input
