@@ -1,13 +1,10 @@
 'use client';
-import React, { useState } from 'react';
-import { DndContext, DragEndEvent, DragOverlay } from '@dnd-kit/core';
+import { useZustandStore } from '@/lib/Zustand';
+import { updateCardPosition } from '@/prisma';
+import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { BoardReference } from '@prisma/client';
 import Draggable from './Draggable';
 import Dropable from './Dropable';
-import DraggableOverlay from './DraggableOverlay';
-import { Board, BoardReference, Space } from '@prisma/client';
-import { ChildProcess } from 'child_process';
-import { updateCardPosition } from '@/prisma';
-import { useZustandStore } from '@/lib/Zustand';
 
 export default function DndKit({
 	data,

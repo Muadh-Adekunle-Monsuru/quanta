@@ -1,22 +1,17 @@
 'use client';
-import { Board } from '@prisma/client';
-import { EllipsisVertical, GitGraph, Globe } from 'lucide-react';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import { Input } from './input';
-import { changeVisibility, Delete, updateBoardTitle } from '@/prisma';
-import { Badge } from './badge';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useRouter } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
 import { useZustandStore } from '@/lib/Zustand';
+import { changeVisibility, Delete, updateBoardTitle } from '@/prisma';
+import { Board } from '@prisma/client';
+import { EllipsisVertical, GitGraph, Globe } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { Badge } from './badge';
 export type BoardCardProps = {
 	id: string;
 	date: string;

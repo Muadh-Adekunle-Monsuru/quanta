@@ -3,10 +3,8 @@ import { deleteItem, updateItemContent, updateItemImage } from '@/prisma';
 import { useDraggable } from '@dnd-kit/core';
 import { Item } from '@prisma/client';
 import { ImagePlus, Link, Loader, Trash2 } from 'lucide-react';
-import Image from 'next/image';
 import { useState } from 'react';
 import AvatarComponent from './AvatarComponent';
-import { Badge } from './badge';
 import { Input } from './input';
 
 export default function Draggable({

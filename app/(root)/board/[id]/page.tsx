@@ -1,15 +1,6 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { useParams, usePathname, useRouter } from 'next/navigation';
-import {
-	Ellipsis,
-	Loader2,
-	PenSquare,
-	PenSquareIcon,
-	Plus,
-	Trash,
-} from 'lucide-react';
 import DndKit from '@/components/ui/DndKit';
+import { useZustandStore } from '@/lib/Zustand';
 import {
 	createNewSpace,
 	deleteSpace,
@@ -18,9 +9,18 @@ import {
 	updateSpaceName,
 } from '@/prisma';
 import { Board } from '@prisma/client';
-import { useZustandStore } from '@/lib/Zustand';
+import {
+	Ellipsis,
+	Loader2,
+	PenSquare,
+	PenSquareIcon,
+	Plus,
+	Trash,
+} from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-export default function page() {
+export default function Page() {
 	const param = useParams();
 	const router = useRouter();
 	const [loading, setLoading] = useState(false);

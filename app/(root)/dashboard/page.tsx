@@ -1,5 +1,5 @@
 'use client';
-import BoardCard, { BoardCardProps } from '@/components/ui/BoardCard';
+import BoardCard from '@/components/ui/BoardCard';
 
 import NewBoardCard from '@/components/ui/NewBoardCard';
 import { useLocalStorage } from '@/lib/useLocalStorage';
@@ -7,20 +7,19 @@ import { useZustandStore } from '@/lib/Zustand';
 import { createNewBoard, getallboards } from '@/prisma';
 import { Board } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { useStore } from 'zustand';
+import { useEffect, useState } from 'react';
 
 export default function DashboardPage() {
 	const refresh = useZustandStore((state) => state.refresh);
 	const setRefresh = useZustandStore((state) => state.setRefresh);
 	const [boards, setBoards] = useState<Board[]>([]);
 	const [loading, setLoading] = useState(false);
-	const [clicked, setClicked] = useState(false);
-	const router = useRouter();
+	const [user, setUser] = useState({ id: '' });
 	const { getLocalUser } = useLocalStorage('localuser');
 	const localUser = getLocalUser();
-	const user = JSON.parse(localUser);
+	if (localUser) {
+		setUser(JSON.parse(localUser));
+	}
 	useEffect(() => {
 		const FetchBoards = async () => {
 			setLoading(true);

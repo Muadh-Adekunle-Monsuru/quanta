@@ -1,29 +1,42 @@
-import { Button } from '@/components/ui/button';
+'use client';
+import { Alignment, Fit, Layout, useRive } from '@rive-app/react-canvas';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Home() {
+	const { RiveComponent, rive } = useRive({
+		src: '/background.riv',
+		stateMachines: 'State Machine 1',
+		artboard: 'Artboard',
+		layout: new Layout({
+			fit: Fit.FitWidth, // Change to: rive.Fit.Contain, or Cover
+			alignment: Alignment.Center,
+		}),
+		autoplay: true,
+	});
 	return (
-		<main className='flex min-h-screen flex-col px-5'>
-			<header className='flex gap-1 items-center cursor-pointer border-b border-b-muted-background py-3'>
-				<div className='size-10 rounded-full flex items-center justify-center'>
-					<Image
-						src='/logo.svg'
-						alt='logo'
-						width={50}
-						height={50}
-						className=' object-contain'
-					/>
+		<main className='flex min-h-screen flex-col  text-white'>
+			<header className='flex  items-center bg-transparent fixed top-0 w-full backdrop-blur-md p-5 justify-between'>
+				<div className='flex items-center gap-4'>
+					<div className='size-10 rounded-full flex items-center justify-center'>
+						<Image
+							src='/logo.svg'
+							alt='logo'
+							width={50}
+							height={50}
+							className=' object-contain'
+						/>
+					</div>
+					<h3 className='font-semibold text-2xl select-none cursor-pointer'>
+						Quanta
+					</h3>
 				</div>
-				<h3 className='font-semibold text-2xl'>Quanta</h3>
+				<Link href={'/dashboard'}>
+					<h1 className='hover:underline underline-offset-8'>Dashboard</h1>
+				</Link>
 			</header>
-			<h1 className='text-[7rem] font-medium w-2/3 leading-none'>
-				Take Control Of Your Tasks
-			</h1>
-			<div className='py-10'>
-				<Button asChild>
-					<Link href={'/dashboard'}>Enter Dashboard</Link>
-				</Button>
+			<div className='h-screen w-full'>
+				<RiveComponent />
 			</div>
 		</main>
 	);

@@ -66,7 +66,7 @@ export default function DashboardHeader() {
 	return (
 		<div className='flex justify-between lg:px-14 px-5 py-5'>
 			<p className='font-semibold text-xl blur-[0.2px]'>
-				<Link href={'/dashboard'}>Quanta</Link>
+				<Link href={'/'}>Quanta</Link>
 			</p>
 
 			<div>
