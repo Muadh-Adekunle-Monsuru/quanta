@@ -16,11 +16,12 @@ export default function DashboardPage() {
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useState({ id: '' });
 	const { getLocalUser } = useLocalStorage('localuser');
-	const localUser = getLocalUser();
-	if (localUser) {
-		setUser(JSON.parse(localUser));
-	}
+
 	useEffect(() => {
+		const localUser = getLocalUser();
+		if (localUser) {
+			setUser(JSON.parse(localUser));
+		}
 		const FetchBoards = async () => {
 			setLoading(true);
 			const response = await getallboards(user.id);

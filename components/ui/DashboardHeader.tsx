@@ -54,9 +54,11 @@ export default function DashboardHeader() {
 		try {
 			const localUser = getLocalUser();
 			if (!localUser) {
-				console.log('no user exists');
+				// console.log('no user exists');
+
 				createLocalUser();
 			} else {
+				// console.log(localUser);
 				setUser(JSON.parse(localUser));
 			}
 		} catch (e) {
