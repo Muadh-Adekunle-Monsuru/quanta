@@ -90,7 +90,7 @@ export default function page() {
 			</div>
 			<section className='flex items-center gap-2 lg:px-14'>
 				{boardData.spaces.map((space, index) => (
-					<div className='group py-3 '>
+					<div className='group py-3 ' key={index}>
 						<div
 							key={index}
 							className={`relative rounded-3xl px-5 text-sm p-2 border   cursor-pointer ${
@@ -165,7 +165,7 @@ export default function page() {
 				))}
 
 				<div
-					className='rounded-3xl px-5 text-sm p-1 border border-gray-300 bg-gray-100 border-dashed cursor-pointer'
+					className='rounded-3xl px-5 text-sm p-2 border-1 border-gray-400 bg-gray-100 border-dashed cursor-pointer'
 					onClick={async () => {
 						const response = await createNewSpace(boardData.id);
 						if (response) {
@@ -180,7 +180,7 @@ export default function page() {
 			<section className='flex-grow lg:px-14 overflow-x-scroll lg:overflow-x-auto py-5'>
 				<DndKit
 					data={boardData.spaces[selectedBoard]?.boards}
-					boardId={boardData?.id}
+					projectId={boardData?.id}
 					spaceId={boardData?.spaces[selectedBoard]?.id}
 				/>
 			</section>

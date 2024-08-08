@@ -245,17 +245,17 @@ export async function deleteSpace(boardId: string, spaceIndex: number) {
 }
 
 export async function updateSpaceBoardName(
-	boardId: string,
-	spaceName: string,
+	projectId: string,
+	spaceId: string,
 	prevBoardName: string,
 	newName: string
 ) {
 	const oldBoard = await prisma.board.findUnique({
-		where: { id: boardId },
+		where: { id: projectId },
 	});
 
 	const updatedBoard = oldBoard?.spaces.map((space) => {
-		if (space.name == spaceName) {
+		if (space.id == spaceId) {
 			const specialUpdate = space.boards.map((board) =>
 				board.name == prevBoardName ? { ...board, name: newName } : board
 			);
@@ -266,10 +266,102 @@ export async function updateSpaceBoardName(
 	});
 
 	const updated = await prisma.board.update({
-		where: { id: boardId },
+		where: { id: projectId },
 		data: {
 			spaces: updatedBoard,
 		},
 	});
 	return updated;
+}
+
+export async function updateItemContent(
+	projectId: string,
+	spaceId: string,
+	boardId: string,
+	itemId: string,
+	newContent: string
+) {
+	try {
+		const project = await prisma.board.findUnique({
+			where: { id: projectId },
+		});
+
+		const updatedContent = project?.spaces.map((space) => {
+			if (space.id == spaceId) {
+				const updatedBoards = space.boards.map((board) => {
+					if (board.id == boardId) {
+						const updateItems = board.items.map((item) => {
+							return item.id == itemId
+								? { ...item, content: newContent }
+								: item;
+						});
+						return { ...board, items: updateItems };
+					} else {
+						return board;
+					}
+				});
+				return { ...space, boards: updatedBoards };
+			} else {
+				return space;
+			}
+		});
+
+		const update = await prisma.board.update({
+			where: { id: projectId },
+			data: {
+				spaces: updatedContent,
+			},
+		});
+
+		// console.log(updatedContent);
+		return update;
+	} catch (e) {
+		console.log('error updating content', e);
+	}
+}
+
+export async function updateItemImage(
+	projectId: string,
+	spaceId: string,
+	boardId: string,
+	itemId: string,
+	contentUrl: string
+) {
+	console.log(projectId, spaceId, boardId, itemId, contentUrl);
+	try {
+		const project = await prisma.board.findUnique({
+			where: { id: projectId },
+		});
+
+		const updatedContent = project?.spaces.map((space) => {
+			if (space.id == spaceId) {
+				const updatedBoards = space.boards.map((board) => {
+					if (board.id == boardId) {
+						const updateItems = board.items.map((item) => {
+							return item.id == itemId
+								? { ...item, contentImage: contentUrl }
+								: item;
+						});
+						return { ...board, items: updateItems };
+					} else {
+						return board;
+					}
+				});
+				return { ...space, boards: updatedBoards };
+			} else {
+				return space;
+			}
+		});
+
+		const update = await prisma.board.update({
+			where: { id: projectId },
+			data: {
+				spaces: updatedContent,
+			},
+		});
+
+		return update;
+	} catch (e) {
+		console.log('error updating content', e);
+	}
 }

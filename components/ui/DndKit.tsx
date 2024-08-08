@@ -9,11 +9,11 @@ import { ChildProcess } from 'child_process';
 
 export default function DndKit({
 	data,
-	boardId,
+	projectId,
 	spaceId,
 }: {
 	data: BoardReference[];
-	boardId: string;
+	projectId: string;
 	spaceId: string;
 }) {
 	const [activeId, setActiveId] = useState(null);
@@ -144,15 +144,21 @@ export default function DndKit({
 				{data?.map((item) => (
 					<Dropable
 						key={item.id}
-						id={item.id}
+						boardId={item.id}
 						name={item.name}
-						boardId={boardId}
+						projectId={projectId}
 						spaceId={spaceId}
 						count={item.items.length}
-						className='flex flex-col gap-2'
+						// className=''
 					>
 						{item.items.map((child) => (
-							<Draggable key={child.id} id={child.id} data={child} />
+							<Draggable
+								key={child.id}
+								data={child}
+								projectId={projectId}
+								spaceId={spaceId}
+								boardId={item.id}
+							/>
 						))}
 					</Dropable>
 				))}
